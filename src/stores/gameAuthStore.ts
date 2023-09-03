@@ -24,8 +24,8 @@ export function createGameHash(gameAuth: GameAuth): string {
         .digest('hex')
 }
 
-export function generateQRData(url: string, gameAuth: GameAuth): string {
-    return (dev ? url : PUBLIC_URL) + `?game=${gameAuth.name}:::${gameAuth.passcode}`
+export function generateQRCodeURL(url: string, gameAuth: GameAuth): string {
+    return (dev ? url : PUBLIC_URL) + `?game=${gameAuth.name}&pass=${gameAuth.passcode}`
 }
 
 export enum GameStatus {

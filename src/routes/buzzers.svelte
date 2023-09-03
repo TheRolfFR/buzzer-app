@@ -1,12 +1,12 @@
 <script lang="ts">
   import defaultIcon from 'svelte-material-icons/VolumeHigh.svelte'
+  import boing from 'svelte-material-icons/Kangaroo.svelte'
   import buzz from 'svelte-material-icons/BullhornVariant.svelte'
   import cow from 'svelte-material-icons/Cow.svelte'
   import duck from 'svelte-material-icons/Duck.svelte'
   import horn from 'svelte-material-icons/Bugle.svelte'
   import siren from 'svelte-material-icons/AlarmLight.svelte'
   import BuzzerButton from './buzzerButton.svelte'
-  import { writable } from 'svelte/store'
   import { createStore } from '$lib/createStore'
 
   const soundRecords = import.meta.glob('$static/sounds/*')
@@ -27,7 +27,7 @@
     audio: AudioSource
   }
 
-  const icons = [defaultIcon, buzz, cow, duck, horn, siren]
+  const icons = [boing, buzz, cow, duck, horn, siren]
   const colors = ['bg-green-600', 'bg-red-600', 'bg-orange-600', 'bg-blue-600', 'bg-yellow-600', 'bg-purple-600']
   const shadows = ['shadow-green-600/50', 'shadow-red-600/50', 'shadow-orange-600/50', 'shadow-blue-600/50', 'shadow-yellow-600/50', 'shadow-purple-600/50']
 
@@ -60,10 +60,16 @@
   )
   $: lastIconSet = typeof $lastSoundWritable !== 'undefined' ? buzzerDescRecords[$lastSoundWritable] || undefined : undefined
 
-  const audioSourceElements: Record<string, Element> = {}
+  const audioSourceElements: Record<string, HTMLAudioElement> = {}
   const onClick = (dispName: string) => {
     lastSoundWritable.set(dispName)
-    const foundEl = audioSourceElements[dispName] as HTMLAudioElement
+
+    Object.values(audioSourceElements).forEach(audioEl => {
+      audioEl.pause()
+      audioEl.currentTime = 0
+    })
+
+    const foundEl = audioSourceElements[dispName]
     foundEl.play()
   }
 
@@ -87,7 +93,7 @@
         <BuzzerButton {...buzzerDesc.style}>
           <svelte:component this={buzzerDesc.icon} class="opacity-70" />
         </BuzzerButton>
-        <audio src={buzzerDesc.audio.path} bind:this={audioSourceElements[displayName]} />
+        <audio src={buzzerDesc.audio.path} bind:this={audioSourceElements[displayName]} preload="auto" />
       </button>
     {/each}
   </div>

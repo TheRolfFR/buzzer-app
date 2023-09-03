@@ -1,6 +1,7 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import { Server } from 'socket.io';
+import basicSsl from '@vitejs/plugin-basic-ssl';
 
 export default defineConfig({
 	server: {
@@ -10,6 +11,7 @@ export default defineConfig({
 		port: 3000
 	},
 	plugins: [
+    basicSsl(),
 		sveltekit(),
 		// this is our custom vite plugin to implement socket.io
 		{
