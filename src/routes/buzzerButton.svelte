@@ -4,12 +4,12 @@
 
   export let big: boolean = false
   export let nolabel: boolean = false
-  $: sizeClasses = big ? 'h-40 text-8xl' : 'h-24 text-6xl'
+  $: sizeClasses = big ? 'w-40 text-8xl' : 'w-24 text-6xl'
 
   export { className as class }
 </script>
 
-<div class={'text-white aspect-square shadow-lg rounded-full flex items-center justify-center ' + className + ' ' + sizeClasses}>
+<div class={'text-white aspect-square p-1 shadow-lg rounded-full flex items-center justify-center max-w-full ' + className + ' ' + sizeClasses}>
   <slot />
 </div>
 {#if !nolabel}

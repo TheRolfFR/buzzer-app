@@ -18,20 +18,14 @@ export default defineConfig({
 			name: 'sveltekit-socket-io',
 			configureServer(server) {
 				const io = new Server(server.httpServer);
-				
+
 				io.on('connection', socket => {
-					// random username
-					const username = `User ${Math.round(Math.random() * 999999)}`;
-					socket.emit('username', username);
-					
+					console.log("cp,,ection");
 					// listen for incoming messages
 					socket.on('message', message => {
+						console.log(message)
 						// broadcast to all connected clients
-						io.emit('message', {
-							username,
-							message,
-							time: new Date().toLocaleString(),
-						})
+						io.emit('message', message)
 					});
 				});
 			}

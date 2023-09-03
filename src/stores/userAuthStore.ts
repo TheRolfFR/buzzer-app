@@ -1,6 +1,7 @@
 import { createJSONStore } from "$lib/createStore"
 import { derived } from "svelte/store"
-import crypto from "node:crypto"
+// @ts-ignore
+import Hashes from "jshashes"
 
 export interface UserIdentity {
     name: string,
@@ -14,11 +15,10 @@ export interface UserAuthConnect extends UserIdentity {
     userHash: string
 }
 
-export function createUserHash(userAuth: UserAuth): string {
-    return crypto.createHash('sha256')
-        .update(userAuth.name)
-        .update(userAuth.password)
-        .digest('hex')
+export function createUserHash(auth: UserAuth): string {
+    // @ts-ignore
+    return new Hashes.SHA256()
+        .hex(auth.name + auth.password)
 }
 export interface Auth extends UserAuth {
     gameMaster: boolean,

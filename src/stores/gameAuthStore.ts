@@ -1,6 +1,7 @@
 import { createJSONStore } from "$lib/createStore"
 import { derived, type Writable } from "svelte/store"
-import crypto from "node:crypto"
+// @ts-ignore
+import Hashes from "jshashes"
 import { isGameMaster } from "./userAuthStore"
 import { PUBLIC_URL } from "$env/static/public"
 import { dev } from "$app/environment"
@@ -17,11 +18,10 @@ export const EMPTY_GAME_AUTH: GameAuth = {
 
 export const gameAuthStore = createJSONStore<GameAuth, Writable<GameAuth>>('GAME', EMPTY_GAME_AUTH);
 
-export function createGameHash(gameAuth: GameAuth): string {
-    return crypto.createHash('sha256')
-        .update(gameAuth.name)
-        .update(gameAuth.passcode)
-        .digest('hex')
+export function createGameHash(auth: GameAuth): string {
+    // @ts-ignore
+    return new Hashes.SHA256()
+        .hex(auth.name + auth.passcode)
 }
 
 export function generateQRCodeURL(url: string, gameAuth: GameAuth): string {
@@ -46,6 +46,6 @@ export let isHostingGame = derived(gameStatusStore, (gameStatus) => gameStatus =
 export let isConnectedToGame = derived(gameStatusStore, (gameStatus) => gameStatus === GameStatus.CONNECTED)
 
 export let gameHash = derived([isHostingGame, isConnectedToGame, gameAuthStore], ([hosting, connected, game]) => {
-    if(!hosting || !connected) return ''
+    if(!hosting && !connected) return ''
     return createGameHash(game)
 })

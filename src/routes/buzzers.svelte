@@ -8,6 +8,9 @@
   import siren from 'svelte-material-icons/AlarmLight.svelte'
   import BuzzerButton from './buzzerButton.svelte'
   import { createStore } from '$lib/createStore'
+  import { createEventDispatcher } from 'svelte'
+
+  const dispatch = createEventDispatcher()
 
   const soundRecords = import.meta.glob('$static/sounds/*')
   const soundPaths = Object.keys(soundRecords)
@@ -71,6 +74,10 @@
 
     const foundEl = audioSourceElements[dispName]
     foundEl.play()
+
+    dispatch('buzz', {
+      sound: dispName
+    })
   }
 
   const lastOnClick = () => {
@@ -79,7 +86,7 @@
   }
 </script>
 
-<div id="buzzers" class="w-full h-full flex flex-col py-2 gap-2">
+<div id="buzzers" class="w-full h-full flex flex-col px-4 py-2 gap-2">
   {#if lastIconSet !== undefined}
     <button class="py-2 active:pt-3 active:pb-1 grid-cell flex flex-col items-center justify-center" on:click={lastOnClick}>
       <BuzzerButton {...lastIconSet.style} big nolabel>
@@ -87,7 +94,7 @@
       </BuzzerButton>
     </button>
   {/if}
-  <div id="buzzer-grid" class={'grid px-4 gap-2 flex-grow ' + (lastIconSet ? 'grid-cols-3' : 'grid-cols-2')}>
+  <div id="buzzer-grid" class={'grid gap-2 flex-grow ' + (lastIconSet ? 'grid-cols-3' : 'grid-cols-2')}>
     {#each Object.entries(buzzerDescRecords) as [displayName, buzzerDesc]}
       <button class="py-2 active:pt-3 active:pb-1 grid-cell flex flex-col items-center justify-center" on:click={() => onClick(displayName)}>
         <BuzzerButton {...buzzerDesc.style}>
