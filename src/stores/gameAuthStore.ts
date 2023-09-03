@@ -41,6 +41,7 @@ export let gameStatusStore = derived([gameAuthStore, isGameMaster], ([auth, gm])
 })
 
 // game derived stores
+export let isInGame = derived(gameStatusStore, (gameStatus) => gameStatus !== GameStatus.DISCONNECTED)
 export let isHostingGame = derived(gameStatusStore, (gameStatus) => gameStatus === GameStatus.HOSTING)
 export let isConnectedToGame = derived(gameStatusStore, (gameStatus) => gameStatus === GameStatus.CONNECTED)
 

@@ -4,8 +4,9 @@
   import LoginForm from '$components/userForm.svelte'
   import GameForm from '$components/gameForm.svelte'
   import BulhormVariant from 'svelte-material-icons/BullhornVariant.svelte'
-  import { isConnectedToGame, isHostingGame } from '$stores/gameAuthStore'
+  import { isConnectedToGame, isHostingGame, isInGame } from '$stores/gameAuthStore'
   import Buzzers from './buzzers.svelte'
+  import { isloggedIn } from '$stores/userAuthStore'
 
   onMount(() => {
     socket.on('username', name => {})
@@ -30,10 +31,12 @@
   <div class="border-b border-zinc-800" />
 
   <div id="content" class="flex-grow">
-    {#if $isConnectedToGame}
-      <Buzzers />
-    {:else if $isHostingGame}
-      WATCH BUZZES
+    {#if $isloggedIn && $isInGame}
+      {#if $isConnectedToGame}
+        <Buzzers />
+      {:else if $isHostingGame}
+        WATCH BUZZES
+      {/if}
     {:else}
       Fill the form please
     {/if}

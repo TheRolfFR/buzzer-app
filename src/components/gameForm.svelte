@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { get } from 'svelte/store'
-  import { slide } from 'svelte/transition'
+  import { derived, get } from 'svelte/store'
 
   import { isGameMaster } from '$stores/userAuthStore'
   import { EMPTY_GAME_AUTH, gameAuthStore, type GameAuth, gameStatusStore, GameStatus, generateQRCodeURL } from '$stores/gameAuthStore'
@@ -12,21 +11,16 @@
 
   import ShareIcon from 'svelte-material-icons/Share.svelte'
   import { page } from '$app/stores'
+  //? keep dev for commented line
   import { browser, dev } from '$app/environment'
-  import QRCode from 'qrcode'
+  import QrCodePane from './qrCodePane.svelte'
+  import { extractParams, cleanUrl, createUrl } from '$lib/qrCode'
 
-  if ($page.url.searchParams.get('game') !== null && $page.url.searchParams.get('pass') !== null) {
-    gameAuthStore.set({
-      name: $page.url.searchParams.get('game') || '',
-      passcode: $page.url.searchParams.get('pass') || ''
-    })
+  const extracted = extractParams($page.url)
+  if (extracted !== undefined && browser) {
+    gameAuthStore.set(extracted)
 
-    if (browser) {
-      let newUrl = new URL($page.url)
-      newUrl.searchParams.delete('game')
-      newUrl.searchParams.delete('pass')
-      window.location.href = newUrl.toString()
-    }
+    window.location.href = cleanUrl($page.url).href
   }
 
   const WORD_LIST = wordFile.split('\n').filter(word => word.length <= 6)
@@ -46,38 +40,9 @@
     })
   }
 
-  let qrCodeUrl: string | undefined = undefined
   let showQrCode = false
-  let lastQRData = ''
-  const generateQrCode = () => {
-    showQrCode = !showQrCode
-    if (!showQrCode) return
-
-    const qrData = generateQRCodeURL($page.url.href, $gameAuthStore)
-    lastQRData = qrData
-
-    qrCodeUrl = undefined
-    QRCode.toDataURL(qrData)
-      .then((url: string) => {
-        qrCodeUrl = url
-      })
-      .catch(() => {})
-  }
+  $: qrCodeUrl = derived(gameAuthStore, gameAuth => createUrl($page.url, gameAuth).toString())
   $: qrCodeClasses = showQrCode ? 'bg-white text-zinc-800' : 'bg-zinc-800 text-white'
-
-  $: webShareAPISupported = browser && typeof navigator.share !== 'undefined'
-  $: onShare = async () => {
-    try {
-      navigator.share({
-        title: 'Buzzer app',
-        text: `Shared from`,
-        url: lastQRData || ''
-      })
-    } catch (error) {
-      webShareAPISupported = false
-    }
-  }
-  $: cantShare = !webShareAPISupported
 
   const onSubmit = () => {
     gameAuthStore.set(inputForm)
@@ -88,9 +53,9 @@
   }
 
   const toggleQrCode = () => {
-    generateQrCode()
+    showQrCode = !showQrCode
   }
-  if (dev) toggleQrCode() // open qr code panel by default
+  // if (dev) toggleQrCode() // open qr code panel by default
 </script>
 
 <div class="px-4 py-2 text-white">
@@ -107,20 +72,8 @@
       <button on:click={toggleQrCode} class={'px-2 py-1 shrink-0 rounded aspect-square ' + qrCodeClasses}> <ShareIcon /> </button>
       <button on:click={onReset} class="px-2 py-1 shrink-0 bg-zinc-800 text-white rounded"> Disconnect </button>
     </div>
-    {#if showQrCode && qrCodeUrl}
-      <div transition:slide class="flex items-stretch gap-2 text-center py-2">
-        <div style:width="150px" class="aspect-square">
-          <img src={qrCodeUrl} alt="QRCode" class="rounded rounded-lg" />
-        </div>
-        <div style:height="150px" class="text-sm flex flex-col flex-grow gap-2">
-          <a href={lastQRData} target="_blank" rel="noreferrer" class="bg-zinc-800 rounded rounded-lg p-2 underline flex-grow flex items-center justify-center">
-            {lastQRData.substring(0, lastQRData.indexOf('?'))}<br />{lastQRData.substring(lastQRData.indexOf('?'))}
-          </a>
-          <button style:display={cantShare ? 'none' : ''} on:click|preventDefault={onShare} class="bg-zinc-800 rounded rounded-lg p-2 flex items-center justify-center gap-2 text-xl">
-            <span class="flex items-center gap-1"><ShareIcon /> <span>Share</span></span>
-          </button>
-        </div>
-      </div>
+    {#if showQrCode}
+      <QrCodePane qrData={$qrCodeUrl} />
     {/if}
   {:else}
     <form action="#" on:submit|preventDefault={onSubmit}>
