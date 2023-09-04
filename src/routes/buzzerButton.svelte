@@ -9,7 +9,7 @@
   export { className as class }
 </script>
 
-<div class={'text-white aspect-square p-1 shadow-lg rounded-full flex items-center justify-center max-w-full ' + className + ' ' + sizeClasses}>
+<div class={'buzzer-button ' + className + ' ' + sizeClasses}>
   <slot />
 </div>
 {#if !nolabel}
@@ -17,3 +17,9 @@
     {label}
   </div>
 {/if}
+
+<style lang="scss">
+  .buzzer-button {
+    @apply text-white aspect-square p-1 shadow-lg rounded-full flex items-center justify-center max-w-full;
+  }
+</style>
