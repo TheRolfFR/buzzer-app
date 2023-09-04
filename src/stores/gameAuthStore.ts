@@ -46,6 +46,6 @@ export let isHostingGame = derived(gameStatusStore, (gameStatus) => gameStatus =
 export let isConnectedToGame = derived(gameStatusStore, (gameStatus) => gameStatus === GameStatus.CONNECTED)
 
 export let gameHash = derived([isHostingGame, isConnectedToGame, gameAuthStore], ([hosting, connected, game]) => {
-    if(!hosting && !connected) return ''
+    if(!hosting && !connected) return undefined
     return createGameHash(game)
 })

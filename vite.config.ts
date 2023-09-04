@@ -1,6 +1,7 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import { Server } from 'socket.io';
+import type { Server as HttpServer } from 'http';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 
 export default defineConfig({
@@ -17,15 +18,13 @@ export default defineConfig({
 		{
 			name: 'sveltekit-socket-io',
 			configureServer(server) {
-				const io = new Server(server.httpServer);
+				const io = new Server(server.httpServer as HttpServer);
 
 				io.on('connection', socket => {
-					console.log("cp,,ection");
 					// listen for incoming messages
-					socket.on('message', message => {
-						console.log(message)
+					socket.on('message', (message: App.BuzzPayload) => {
 						// broadcast to all connected clients
-						io.emit('message', message)
+						io.emit(message.channel, message)
 					});
 				});
 			}

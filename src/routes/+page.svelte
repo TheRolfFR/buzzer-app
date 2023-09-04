@@ -1,41 +1,24 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-  import { socket } from '../lib/socket'
   import LoginForm from '$components/userForm.svelte'
   import GameForm from '$components/gameForm.svelte'
   import BulhormVariant from 'svelte-material-icons/BullhornVariant.svelte'
+
+  import { socket } from '../lib/socket'
   import { isConnectedToGame, isHostingGame, isInGame, gameHash } from '$stores/gameAuthStore'
   import { authStore, userHash } from '$stores/userAuthStore'
   import Buzzers from './buzzers.svelte'
   import { isloggedIn } from '$stores/userAuthStore'
+  import BuzzerPodium from './buzzerPodium.svelte'
 
-  $: channel = $gameHash
-
-  $: values = [] as any[]
-  onMount(() => {
-    console.log('listening ' + channel)
-    socket.on('message', (...args) => {
-      values = [...values, ...args]
-      console.log(...args, values)
-    })
-  })
-
-  const sendMessage = () => {
-    const message = ''
-    socket.emit('message', message)
-  }
-
-  const onBuzz = (data: { sound: string }) => {
-    const payload = {
-      ...data,
-      channel,
+  const onBuzz = (sound: string) => {
+    const payload: App.BuzzPayload = {
+      sound,
+      channel: $gameHash || '',
       user: {
         name: $authStore.name,
         userHash: $userHash
       }
     }
-    console.log(channel, payload)
-
     socket.emit('message', payload)
   }
 </script>
@@ -57,10 +40,7 @@
       {#if $isConnectedToGame}
         <Buzzers on:buzz={evt => onBuzz(evt.detail)} />
       {:else if $isHostingGame}
-        <div class="w-full h-full bg-zinc-800 px-4 py-2 break-all overflow-scroll">
-          {channel}
-          <pre>{JSON.stringify(values, null, 2)}</pre>
-        </div>
+        <BuzzerPodium />
       {/if}
     {:else}
       <div class="w-full h-full bg-zinc-800" />
