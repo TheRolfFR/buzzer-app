@@ -11,3 +11,22 @@ html, body {
     height: 100%;
     margin: 0;
 }
+
+$BG_COLOR: theme('colors.zinc.700');
+$BG_COLOR_DARKER: theme('colors.zinc.800');
+
+@mixin bg {
+    background: $BG_COLOR;
+    @apply text-white;
+}
+
+.app-section {
+    @include app-section;
+}
+.bg-darker {
+    @include bg-darker;
+}
+
+.bg-darker {
+    @apply bg-zinc-800;
+}

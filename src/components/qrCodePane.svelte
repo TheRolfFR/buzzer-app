@@ -12,7 +12,9 @@
   let qrCodeUrl: string | undefined = undefined
   const generateQrCode = () => {
     qrCodeUrl = undefined
-    QRCode.toDataURL(qrData)
+    QRCode.toDataURL(qrData, {
+      width: 150
+    })
       .then((url: string) => {
         qrCodeUrl = url
       })
@@ -35,16 +37,39 @@
   $: cantShare = !webShareAPISupported
 </script>
 
-<div transition:slide class="flex items-stretch gap-2 text-center py-2">
-  <div style:width="150px" class="aspect-square bg-white rounded rounded-lg text-black">
-    <img src={qrCodeUrl} alt="QR Code" />
+<div transition:slide id="qrcode-pane">
+  <div style:width="150px" id="qrcode-container">
+    <img src={qrCodeUrl} style:width="150px" alt={qrData} />
   </div>
-  <div style:height="150px" class="text-sm flex flex-col flex-grow gap-2">
-    <a href={qrData} target="_blank" rel="noreferrer" class="bg-zinc-800 rounded rounded-lg p-2 underline flex-grow flex items-center justify-center">
+  <div style:height="150px" id="share-pane">
+    <a href={qrData} target="_blank" rel="noreferrer" class="underline flex-grow">
       {qrData.substring(0, qrData.indexOf('?'))}<br />{qrData.substring(qrData.indexOf('?'))}
     </a>
-    <button style:display={cantShare ? 'none' : ''} on:click|preventDefault={onShare} class="bg-zinc-800 rounded rounded-lg p-2 flex items-center justify-center gap-2 text-xl">
+    <button style:display={cantShare ? 'none' : ''} on:click|preventDefault={onShare} class="text-xl">
       <span class="flex items-center gap-1"><ShareIcon /> <span>Share</span></span>
     </button>
   </div>
 </div>
+
+<style lang="scss">
+  #qrcode-pane {
+    @apply flex items-stretch gap-2 text-center py-2;
+  }
+
+  #qrcode-container, #share-pane > * {
+    @apply rounded-lg;
+  }
+
+  #qrcode-container {
+    @apply aspect-square overflow-hidden bg-white text-black;
+  }
+  #share-pane {
+    @apply text-sm flex flex-col flex-grow gap-2;
+
+    & > * {
+      @include bg-darker;
+      @include flex-center;
+      @apply p-2;
+    }
+  }
+</style>

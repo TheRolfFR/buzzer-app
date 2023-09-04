@@ -23,17 +23,17 @@
   }
 </script>
 
-<div id="app" class="h-full w-full max-w-md overflow-y-auto bg-zinc-700 text-white flex flex-col">
-  <header class="text-2xl leading-none font-medium p-2 text-white flex items-center gap-2">
-    <span class="rounded-lg bg-zinc-800 text-white p-2">
+<div id="app">
+  <header>
+    <span id="logo">
       <BulhormVariant size="20" />
     </span><span class="flex-grow my-2">Buzzer App</span>
   </header>
-  <div class="border-b border-zinc-800" />
+  <div class="hr" />
   <LoginForm />
-  <div class="border-b border-zinc-800" />
+  <div class="hr" />
   <GameForm />
-  <div class="border-b border-zinc-800" />
+  <div class="hr" />
 
   <div id="content" class="flex-grow">
     {#if $isloggedIn && $isInGame}
@@ -50,6 +50,23 @@
 
 <style lang="scss">
   #app {
+    @include bg;
+    @include s-full;
+    @apply max-w-md overflow-y-auto flex flex-col;
     margin: 0 auto;
+  }
+
+  header {
+    @include flex-middle;
+    @apply text-2xl leading-none font-medium p-2;
+  }
+
+  #logo {
+    @include bg-darker;
+    @apply rounded-lg p-2;
+  }
+
+  .hr {
+    @apply border-b border-zinc-800;
   }
 </style>

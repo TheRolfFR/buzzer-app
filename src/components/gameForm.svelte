@@ -55,10 +55,10 @@
   const toggleQrCode = () => {
     showQrCode = !showQrCode
   }
-  // if (dev) toggleQrCode() // open qr code panel by default
+  if (dev) toggleQrCode() // open qr code panel by default
 </script>
 
-<div class="px-4 py-2 text-white">
+<div class="app-section">
   <h3 class="font-medium text-sm opacity-70">2. Game</h3>
   {#if $gameStatusStore == GameStatus.HOSTING || $gameStatusStore == GameStatus.CONNECTED}
     <div class="flex justify-between items-center gap-2">

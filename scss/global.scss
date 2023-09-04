@@ -1,0 +1,33 @@
+@mixin s-full {
+    @apply h-full w-full;
+}
+
+$BG_COLOR: theme('colors.zinc.700');
+$BG_COLOR_DARKER: theme('colors.zinc.800');
+
+@mixin bg {
+    background: $BG_COLOR;
+    @apply text-white;
+}
+
+@mixin bg-darker {
+    background: $BG_COLOR_DARKER;
+    @apply text-white;
+}
+
+@mixin app-section {
+    @apply px-4 py-2;
+}
+
+@mixin flex-middle {
+    @apply flex items-center gap-2;
+}
+
+@mixin flex-center {
+    @include flex-middle();
+    @apply justify-center;
+}
+
+@mixin s-full {
+    @apply h-full w-full;
+}

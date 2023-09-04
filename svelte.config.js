@@ -13,7 +13,8 @@ const config = {
 			$components: path.resolve("./src/components"),
 			$stores: path.resolve("./src/stores"),
 			$locales: path.resolve("./src/locales"),
-			$static: path.resolve("./static")
+			$static: path.resolve("./static"),
+			$scss: path.resolve("./scss")
 		}
 	},
 	preprocess: vitePreprocess(),

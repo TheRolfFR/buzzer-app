@@ -17,7 +17,7 @@
   }
 </script>
 
-<div class="px-4 py-2 text-white">
+<div class="app-section">
   <h3 class="font-medium text-sm opacity-70">1. Identity</h3>
   {#if $isloggedIn}
     <div class="flex justify-between items-center gap-2">
