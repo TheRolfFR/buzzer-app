@@ -55,7 +55,7 @@
   const toggleQrCode = () => {
     showQrCode = !showQrCode
   }
-  if (dev) toggleQrCode() // open qr code panel by default
+  // if (dev) toggleQrCode() // open qr code panel by default
 </script>
 
 <div class="app-section">

@@ -35,6 +35,8 @@
     }
   }
   $: cantShare = !webShareAPISupported
+
+  $: shareString = webShareAPISupported ? 'Share' : 'Share API not supported'
 </script>
 
 <div transition:slide id="qrcode-pane">
@@ -45,8 +47,8 @@
     <a href={qrData} target="_blank" rel="noreferrer" class="underline flex-grow">
       {qrData.substring(0, qrData.indexOf('?'))}<br />{qrData.substring(qrData.indexOf('?'))}
     </a>
-    <button style:display={cantShare ? 'none' : ''} on:click|preventDefault={onShare} class="text-xl">
-      <span class="flex items-center gap-1"><ShareIcon /> <span>Share</span></span>
+    <button on:click|preventDefault={onShare} disabled={cantShare} class="text-xl">
+      <span class="flex items-center gap-1" title={shareString} class:opacity-70={cantShare}><ShareIcon /> <span>Share</span></span>
     </button>
   </div>
 </div>
