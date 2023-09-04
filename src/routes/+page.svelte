@@ -6,7 +6,7 @@
   import { socket } from '../lib/socket'
   import { isConnectedToGame, isHostingGame, isInGame, gameHash } from '$stores/gameAuthStore'
   import { authStore, userHash } from '$stores/userAuthStore'
-  import Buzzers from './buzzers.svelte'
+  import Buzzers from './buzzerGrid.svelte'
   import { isloggedIn } from '$stores/userAuthStore'
   import BuzzerPodium from './buzzerPodium.svelte'
 
