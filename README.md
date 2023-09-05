@@ -4,6 +4,15 @@
 
 <h4 align="center">Homemade buzzer app with a mix of good tech</h4>
 
+<div align="center">
+  <div style="display: inline-block"><u>Player side</u><br>
+    <img src="images/buzzer_player.png" height="459" />
+  </div>
+  <div style="display: inline-block"><u>Game master side</u><br>
+    <img src="images/buzzer_game_master.png" height="459" />
+  </div>
+</div>
+
 ## Technologies
 
 Front-end: **SvelteKit** combined with **typescript** for the framework, with **Tailwind CSS** and **SCSS** for dynamic styles using `@apply` and `mixins`.
