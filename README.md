@@ -1,12 +1,12 @@
 <h1 align="center">
-  <img src="static/icon.png" /> Sveltekit + Socket.io
+  <img src="static/icon.png" /> Buzzer App
 </h1>
 
 <h4 align="center">Homemade buzzer app with a mix of good tech</h4>
 
 ## Technologies
 
-Front-end: **SvelteKit** combined with **typescript** for the framework, with **Tailwind CSS** and **SCSS** for dynamic styles using @apply and mixins.
+Front-end: **SvelteKit** combined with **typescript** for the framework, with **Tailwind CSS** and **SCSS** for dynamic styles using `@apply` and `mixins`.
 
 Back-end: **SvelteKit** does the job quickly but it's really **express** and **socket.io** that brings the power for a custom production server allowing advanced routing and sockets together.
 
