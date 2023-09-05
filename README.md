@@ -4,14 +4,14 @@
 
 <h4 align="center">Homemade buzzer app with a mix of good tech</h4>
 
-<div align="center">
-  <div style="display: inline-block"><u>Player side</u><br>
+<table align="center"><tr>
+  <td align="center"><em>Player side</em><br>
     <img src="images/buzzer_player.png" height="459" />
-  </div>
-  <div style="display: inline-block"><u>Game master side</u><br>
+  </td>
+  <td align="center"><em>Game master side</em><br>
     <img src="images/buzzer_game_master.png" height="459" />
-  </div>
-</div>
+  </td>
+</tr></table>
 
 ## Technologies
 
