@@ -1,47 +1,57 @@
-# Sveltekit + Socket.io
+<h1 align="center">
+  <img src="static/icon.png" /> Sveltekit + Socket.io
+</h1>
 
-Tutorials: 
-* [https://linu.us/live-chat-with-sveltekit-and-socketio](https://linu.us/live-chat-with-sveltekit-and-socketio)
-* [https://dev.to/theether0/sveltekit-with-socketio-and-nodejs-285h](https://dev.to/theether0/sveltekit-with-socketio-and-nodejs-285h)
-* [https://joyofcode.xyz/using-websockets-with-sveltekit](https://joyofcode.xyz/using-websockets-with-sveltekit)
+<h4 align="center">Homemade buzzer app with a mix of good tech</h4>
 
----
+## Technologies
 
-## create-svelte
+Front-end: **SvelteKit** combined with **typescript** for the framework, with **Tailwind CSS** and **SCSS** for dynamic styles using @apply and mixins.
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Back-end: **SvelteKit** does the job quickly but it's really **express** and **socket.io** that brings the power for a custom production server allowing advanced routing and sockets together.
 
-## Creating a project
+## Base project
 
-If you're seeing this, you've probably already done this step. Congrats!
+I used **[8ctopotamus/sveltekit-socketio-chat](https://github.com/8ctopotamus/sveltekit-socketio-chat)** repo as a base and scratched the entire content to build my app on top. I won so much time over the overall setup time.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## How to develop
 
-# create a new project in my-app
-npm create svelte@latest my-app
+Install packages with your favorite package manager. I use [pnpm](https://pnpm.io/) to cache my downloaded packages and go faster:
+
+```
+pnpm install
 ```
 
-## Developing
+You can then start the development server:
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+```
+pnpm run dev
 ```
 
-## Building
+Open hosts with `--host` to expose your dev server on the network:
+
+```
+pnpm run dev --host 0.0.0.0
+```
+
+## How to build
 
 To create a production version of your app:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
-You can preview the production build with `npm run preview`.
+## Start prod server
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+To start prod server, you need to run the built production version:
+
+```
+node build/index.prod.js
+```
+or
+```
+npm run prod
+```
+
+ You can use environment variables like `HOST`, `PORTS` and `SOCKET_PATH` to personalize exposed network interface and port.
