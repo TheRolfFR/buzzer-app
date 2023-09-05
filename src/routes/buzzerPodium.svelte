@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Socket } from 'socket.io-client'
-  import { socket } from '../lib/socket'
+  import { socket } from '$lib/socket.client'
   import { browser, dev } from '$app/environment'
   import { gameHash } from '$stores/gameAuthStore'
   import buzzerDescRecords from '$lib/buzzerSet'

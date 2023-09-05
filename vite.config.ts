@@ -1,10 +1,28 @@
+// @ts-ignore
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
-import { Server } from 'socket.io';
-import type { Server as HttpServer } from 'http';
 import basicSsl from '@vitejs/plugin-basic-ssl';
+import startSocketIO from './src/lib/socket.server';
+import type { Server as HttpServer } from 'http';
 
-export default defineConfig({
+const VITE_CONFIG_CODE_MINIFIED = undefined
+const VITE_CONFIG_CODE_NOT_MINIFIED = false
+const computeMinify = (mode: string) => {
+	if(mode === 'development') return VITE_CONFIG_CODE_NOT_MINIFIED
+
+	const dontMinify = process.env.NO_MINIFY === 'true'
+	if(dontMinify)
+		console.info("Code not minified")
+	else
+		console.info("Code minified")
+
+	return dontMinify ? VITE_CONFIG_CODE_NOT_MINIFIED : VITE_CONFIG_CODE_MINIFIED
+}
+
+export default defineConfig(({ mode }) => ({
+	build: {
+		minify: computeMinify(mode),
+	},
 	server: {
 		port: 3000
 	},
@@ -18,15 +36,9 @@ export default defineConfig({
 		{
 			name: 'sveltekit-socket-io',
 			configureServer(server) {
-				const io = new Server(server.httpServer as HttpServer);
-
-				io.on('connection', socket => {
-					// listen for incoming messages
-					socket.on('message', (message: App.BuzzPayload) => {
-						// broadcast to all connected clients
-						io.emit(message.channel, message)
-					});
-				});
+				if (mode === 'development') {
+					startSocketIO(server.httpServer as unknown as HttpServer)
+				}
 			}
 		},
 	],
@@ -39,4 +51,4 @@ export default defineConfig({
 			}
 		}
 	}
-});
+}));

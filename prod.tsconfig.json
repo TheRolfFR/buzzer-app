@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+      "esModuleInterop": true,
+      "target": "es6",
+      "noImplicitAny": false,
+      "moduleResolution": "node",
+      "sourceMap": false,
+      "outDir": "build",
+      "baseUrl": "."
+  },
+  "files": ["src/index.prod.ts"],
+  "$schema": "https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/tsconfig.json"
+}

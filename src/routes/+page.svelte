@@ -3,7 +3,7 @@
   import GameForm from '$components/gameForm.svelte'
   import BulhormVariant from 'svelte-material-icons/BullhornVariant.svelte'
 
-  import { socket } from '../lib/socket'
+  import { socket } from '$lib/socket.client'
   import { isConnectedToGame, isHostingGame, isInGame, gameHash } from '$stores/gameAuthStore'
   import { authStore, userHash } from '$stores/userAuthStore'
   import Buzzers from './buzzerGrid.svelte'
