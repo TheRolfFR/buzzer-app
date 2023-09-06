@@ -6,10 +6,10 @@
 
 <table align="center"><tr>
   <td align="center"><em>Player side</em><br>
-    <img src="images/buzzer_player.png" height="459" />
+    <img src="images/buzzer_player.png" width="224" />
   </td>
   <td align="center"><em>Game master side</em><br>
-    <img src="images/buzzer_game_master.png" height="459" />
+    <img src="images/buzzer_game_master.png" width="224" />
   </td>
 </tr></table>
 
